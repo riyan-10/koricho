@@ -33,8 +33,8 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
   const rim = new THREE.DirectionalLight(0xffdd8e, 1.2); rim.position.set(2, 4, -3); scene.add(rim);
 
   const root = new THREE.Group(); scene.add(root);
-  const peelGroup = new THREE.Group(); root.add(peelGroup);
-  const state = { peel: 0, spread: 0, cook: 0, gather: 0, letters: 0, leave: 0, turn: 0 };
+
+  const state = { reveal: 0, spread: 1, cook: 0, gather: 0, letters: 0, leave: 0, turn: 0 };
   const cookUniform = { value: 0 };
   const curve = new THREE.CatmullRomCurve3([
     new THREE.Vector3(.32, 1.95, -.02), new THREE.Vector3(-.25, 1.35, .04),
@@ -55,50 +55,6 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
     const f = frame(t), r = radius(t) * shell * (1 + .038 * Math.cos(theta * 5));
     return f.center.clone().addScaledVector(f.normal, Math.cos(theta) * r).addScaledVector(f.binormal, Math.sin(theta) * r);
   };
-  const skinMaterial = keep(new THREE.MeshStandardMaterial({ map: skin, roughness: .69, metalness: 0, side: THREE.FrontSide }));
-  const insideMaterial = keep(new THREE.MeshStandardMaterial({ color: 0xf0dfac, roughness: .9, side: THREE.BackSide }));
-  const peelMeshes = [];
-  const rows = 64, columns = 8;
-  for (let strip = 0; strip < 5; strip++) {
-    const geometry = keep(new THREE.BufferGeometry());
-    const positions = new Float32Array((rows + 1) * (columns + 1) * 3);
-    const uvs = [], indices = [];
-    for (let row = 0; row <= rows; row++) for (let col = 0; col <= columns; col++) {
-      uvs.push((strip + col / columns) / 5, 1 - row / rows);
-    }
-    for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
-      const a = row * (columns + 1) + col, b = a + columns + 1;
-      indices.push(a, b, b + 1, a, b + 1, a + 1);
-    }
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2)); geometry.setIndex(indices);
-    const outside = new THREE.Mesh(geometry, skinMaterial), inside = new THREE.Mesh(geometry, insideMaterial);
-    outside.frustumCulled = inside.frustumCulled = false;
-    peelGroup.add(outside, inside); peelMeshes.push({ geometry, strip, positions });
-  }
-
-  // Cache both peel shapes once. Playback only interpolates typed arrays; it does not rebuild the model.
-  const peelBase = curve.getPoint(.97);
-  for (const ribbon of peelMeshes) {
-    const closed = new Float32Array(ribbon.positions.length), opened = new Float32Array(ribbon.positions.length);
-    const angle = (ribbon.strip + .5) / 5 * Math.PI * 2;
-    for (let row=0; row<=rows; row++) {
-      const t=row/rows, u=1-t, reach=Math.sin(u*Math.PI*.83)*1.25+u*.33;
-      const x=peelBase.x+Math.cos(angle)*reach, y=peelBase.y-u*1.15+Math.sin(u*Math.PI)*.5, z=peelBase.z+Math.sin(angle)*reach;
-      for(let col=0;col<=columns;col++) {
-        const theta=(ribbon.strip+col/columns)/5*Math.PI*2, original=surface(t,theta), width=(col/columns-.5)*radius(t)*1.21;
-        const offset=(row*(columns+1)+col)*3;
-        closed.set([original.x,original.y,original.z],offset);
-        opened.set([x-Math.sin(angle)*width,y+.04*Math.sin(col/columns*Math.PI),z+Math.cos(angle)*width],offset);
-      }
-    }
-    ribbon.closed=closed; ribbon.opened=opened;
-  }
-  const tipMaterial = keep(new THREE.MeshStandardMaterial({ color: 0x806032, roughness: .95 }));
-  const stem = new THREE.Mesh(keep(new THREE.CapsuleGeometry(.055, .18, 6, 12)), tipMaterial); peelGroup.add(stem);
-  const bottom = new THREE.Mesh(keep(new THREE.SphereGeometry(.045, 12, 8)), tipMaterial);
-  bottom.position.copy(curve.getPoint(.995)); peelGroup.add(bottom);
-
   const sideMaterial = keep(new THREE.MeshStandardMaterial({ color: 0xf1e1b6, bumpMap: skin, bumpScale: .018, roughness: .82 }));
   const capMaterial = keep(new THREE.MeshStandardMaterial({ map: raw, roughness: .84, side: THREE.DoubleSide }));
   capMaterial.onBeforeCompile = shader => {
@@ -181,28 +137,9 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
   const cream = new THREE.Color(0xf1e1b6), gold = new THREE.Color(0xd7a848);
   const identity = new THREE.Quaternion();
 
-  function updatePeel() {
-    for (const { geometry, positions, closed, opened } of peelMeshes) {
-      for (let row = 0; row <= rows; row++) {
-        const t = row / rows;
-        const p = THREE.MathUtils.smoothstep(state.peel - t * .82, 0, .22);
-        for (let col = 0; col <= columns; col++) {
-          const offset = (row * (columns + 1) + col) * 3;
-          for(let axis=0;axis<3;axis++)positions[offset+axis]=closed[offset+axis]+(opened[offset+axis]-closed[offset+axis])*p;
-        }
-      }
-      geometry.attributes.position.needsUpdate = true; geometry.computeVertexNormals();
-    }
-    const stemPoint = peelMeshes[0].positions;
-    stem.position.set(stemPoint[12], stemPoint[13] + .09 * (1 - state.peel), stemPoint[14]);
-    stem.rotation.z = -.35 - state.peel * 1.7;
-  }
-  let lastPeel = -1;
   function render() {
     if (disposed) return;
-    if (state.peel !== lastPeel) { updatePeel(); lastPeel = state.peel; }
-    peelGroup.visible = state.leave < .995;
-    peelGroup.position.set(0, -state.leave * .7, -state.leave * .5); peelGroup.scale.setScalar(1 - state.leave * .5);
+    root.visible = state.reveal > 0;
     root.rotation.set(.12 * (1 - state.gather), state.turn, -.18 * (1 - state.spread));
     root.position.y = mobile() ? -.1 : .1;
     cookUniform.value = state.cook; sideMaterial.color.copy(cream).lerp(gold, state.cook);
@@ -220,7 +157,7 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
         group.quaternion.slerp(finalRotation,state.gather);
       }
       const scale = chosen < 0 ? 1 - state.gather * .85 : 1 + state.gather * 2.75;
-      group.scale.set(scale, scale, 1 - state.cook * .77);
+      group.scale.set(scale * state.reveal, scale * state.reveal, (1 - state.cook * .77) * state.reveal);
       group.visible = chosen >= 0 || state.gather < .99;
       if (slice.letterMaterial) slice.letterMaterial.opacity = state.letters;
     });
@@ -243,21 +180,40 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
     if(frameIntervals.length){const sorted=[...frameIntervals].sort((a,b)=>a-b);stage.dataset.frameMedianMs=sorted[Math.floor(sorted.length/2)].toFixed(1);stage.dataset.frameSamples=String(sorted.length);}
     onComplete();
   }});
-  timeline.call(()=>onStep(0,'A real ingredient. Let’s get a little closer.'))
-    .to(state,{turn:.18,duration:1.0,ease:'sine.inOut'},0)
-    .to(state,{peel:1,duration:2.45,ease:'sine.inOut'},.55)
-    .call(()=>onStep(1,'Peel back. Slice through. Every piece keeps its character.'),null,3.0)
-    .to(state,{leave:1,duration:1.3,ease:'power2.inOut'},3.0)
-    .to(state,{spread:1,turn:0,duration:1.8,ease:'power3.inOut'},3.15)
-    .call(()=>onStep(2,'A warmer colour. A thinner slice. The Koricho crunch.'),null,4.8)
-    .to(state,{cook:1,duration:1.45,ease:'sine.inOut'},4.8)
-    .to(state,{gather:1,duration:1.65,ease:'power3.inOut'},5.75)
-    .call(()=>onStep(3,'Good ingredients. A different process. One big crunch.'),null,7.25)
-    .to(state,{letters:1,duration:1.0,ease:'sine.out'},7.25)
-    .to({}, {duration:.6});
+  const shot = document.createElement('div');
+  shot.className = 'banana-shot';
+  const whole = new Image();
+  whole.src = './assets/banana-whole.webp';
+  whole.alt = '';
+  const strips = Array.from({length: 7}, (_, index) => {
+    const strip = new Image();
+    strip.src = './assets/banana-peeled.webp';
+    strip.alt = '';
+    const left = index * 100 / 7, right = (index + 1) * 100 / 7;
+    strip.style.clipPath = `polygon(${left-3}% 0,${right-3}% 0,${right+3}% 100%,${left+3}% 100%)`;
+    return strip;
+  });
+  await Promise.all([whole, ...strips].map(image => image.decode()));
+  const slicesLayer = document.createElement('div');
+  slicesLayer.style.cssText = 'position:absolute;inset:0;clip-path:inset(0 0 0 100%)';
+  slicesLayer.append(...strips);
+  shot.append(whole, slicesLayer);
+  stage.append(shot);
+  const distance = Math.min(stage.clientWidth * .09, 65);
+  timeline.call(()=>onStep(0,'The peel slips back.'))
+    .fromTo(whole,{clipPath:'inset(0% 0% 0% 0%)'},{clipPath:'inset(0% 100% 0% 0%)',duration:.72,ease:'sine.inOut'},.18)
+    .fromTo(slicesLayer,{clipPath:'inset(0% -40% 0% 100%)'},{clipPath:'inset(-40% -40% -40% -40%)',duration:.72,ease:'sine.inOut'},.18)
+    .call(()=>onStep(1,'One cut follows the next.'),null,.92)
+    .to(strips,{x:i=>(i-3)*distance/3,y:i=>Math.sin(i*1.5)*8,rotation:i=>(i-3)*1.7,duration:.67,stagger:.055,ease:'power2.out'},.92)
+    .to(shot,{opacity:0,scale:1.035,duration:.45,ease:'sine.inOut'},1.68)
+    .to(state,{reveal:1,duration:.48,ease:'sine.inOut'},1.68)
+    .call(()=>onStep(2,'The slices turn golden.'),null,2.06)
+    .to(state,{cook:1,gather:1,duration:.98,ease:'power2.inOut'},2.05)
+    .call(()=>onStep(3,'Good ingredients. A different process. One big crunch.'),null,2.92)
+    .to(state,{letters:1,duration:.44,ease:'sine.out'},2.92);
   if(reduced()) timeline.progress(1).pause(); else render();
   return {
     timeline, render,
-    dispose() { disposed=true; timeline.kill(); resizeObserver.disconnect(); renderer.dispose(); resources.forEach(r=>r.dispose?.()); renderer.domElement.remove(); if(!stage.querySelector('canvas'))stage.classList.remove('has-webgl'); }
+    dispose() { disposed=true; shot.remove(); timeline.kill(); resizeObserver.disconnect(); renderer.dispose(); resources.forEach(r=>r.dispose?.()); renderer.domElement.remove(); if(!stage.querySelector('canvas'))stage.classList.remove('has-webgl'); }
   };
 }
