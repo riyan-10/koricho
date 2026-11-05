@@ -46,3 +46,31 @@ Prompt:
 
 Use case: product-mockup. Asset type: isolated food cutout for Koricho cinematic snack website. One whole ripe golden yellow banana with its peel intact, elegant curved shape, almost horizontal diagonal rising at the right, stem on left, natural subtle brown freckles. Three-quarter studio still-life view. ONE banana only, centered, fully in frame, isolated with plenty of transparent margin. Ultra high quality photorealistic food advertising, warm directional studio light from upper left, beautiful tactile detail, cocoa and golden palette. Background genuinely transparent. No surface, no plate, no props, no cast shadow outside the food, no text, no labels, no logos, no hands, no other objects.
 
+
+## Revision 2: distinct chapter assets
+
+Generated with the built-in Imagegen tool. These remain concept visuals. The peel/slice/message film and care illustration are original code-native SVG artwork in `dist/scenes.js` and `dist/index.html`.
+
+### hero-crunch-v2
+
+Final asset: dist/assets/hero-crunch-v2.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-57a37672-9854-4bf4-af88-ca9add6a0fdb.png
+
+Prompt: Use case: product-mockup. Asset type: unique food cutout for Koricho snack website chapter. A sculptural airborne arc of mixed vacuum-fried snacks: golden round banana chips with tiny seed centres, rich orange sweet potato chips with purple skin rims, and long golden ridged jackfruit chips. About nine pieces, all different shapes and angles, gently spiralling from lower left to upper right. Airy elegant composition, visually rich tactile crispness, plenty of space between pieces. No bowl, no raw fruit, no packaging. Photorealistic premium food advertising, directional light from upper left, warm golden and cocoa palette, realistic organic texture. Fully isolated on a genuinely transparent background, no ground plane, no external cast shadow, no glow, no text, logos, hands, utensils or watermarks. Keep subject fully within frame.
+
+### crunch-macro-v2
+
+Final asset: dist/assets/crunch-macro-v2.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-a4674bfe-6fdb-4fa5-8324-df134050bf4b.png
+
+Prompt: Use case: product-mockup. Asset type: unique food cutout for Koricho snack website chapter. ONE single vacuum-fried sweet potato chip viewed almost face-on at a slightly dramatic angle. Thin, irregular, very ruffled edge, amber orange flesh with a narrow purple skin edge, extremely crisp porous little blisters, delicate natural surface fissures. Fully visible whole chip centered, no other chips. Fine food-advertising macro detail. Photorealistic premium food advertising, directional light from upper left, warm golden and cocoa palette, realistic organic texture. Fully isolated on a genuinely transparent background, no ground plane, no external cast shadow, no glow, no text, logos, hands, utensils or watermarks. Keep subject fully within frame.
+
+### jackfruit-origin-v2
+
+Final asset: dist/assets/jackfruit-origin-v2.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-2562aa50-ada7-4d72-a3b1-8098a7f3c748.png
+
+Prompt: Use case: product-mockup. Asset type: unique food cutout for Koricho snack website chapter. A beautiful freshly cut half of a ripe tropical jackfruit, with golden yellow bulbs naturally nested inside and a vivid green textured rind. Three-quarter still-life angle with the cut face directed toward camera, horizontal oblong fruit. One half only. Two fresh green jackfruit leaves naturally alongside. High-end food editorial photography, warm natural golden light. Photorealistic premium food advertising, directional light from upper left, warm golden and cocoa palette, realistic organic texture. Fully isolated on a genuinely transparent background, no ground plane, no external cast shadow, no glow, no text, logos, hands, utensils or watermarks. Keep subject fully within frame.
