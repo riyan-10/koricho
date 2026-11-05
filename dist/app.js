@@ -7,7 +7,8 @@
   try { manualReduced = localStorage.getItem('koricho-reduce-motion') === 'true'; } catch {}
   let animationContext;
   let cleanupScenes;
-  let soundEnabled = false;
+  let soundEnabled = true;
+  let pendingCrunch = false;
   let audioContext;
   let crunchTimeline;
   const reduced = () => systemMotion.matches || manualReduced;
@@ -68,7 +69,7 @@
       gsap.to('.hero-still', { y: -60, rotation: 8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
       gsap.to('.round-stamp', { rotation: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
       gsap.from('.product-card', { y: 65, opacity: 0, stagger: .13, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: '.product-grid', start: 'top 88%', toggleActions: 'play none none none' } });
-      gsap.from('.origin-art img', { y: 40, rotation: -6, ease: 'none', scrollTrigger: { trigger: '.origin-section', start: 'top 85%', end: 'center 45%', scrub: 1 } });
+      gsap.from('.origin-art img', { y: 24, scale: .97, ease: 'none', scrollTrigger: { trigger: '.origin-section', start: 'top 85%', end: 'center 45%', scrub: 1 } });
       gsap.from('.story-mark', { rotation: -8, y: 35, ease: 'none', scrollTrigger: { trigger: '.story-section', start: 'top bottom', end: 'center center', scrub: 1 } });
     });
     ScrollTrigger.refresh();
@@ -85,40 +86,64 @@
   if (document.fonts) document.fonts.ready.then(() => window.ScrollTrigger?.refresh());
   window.addEventListener('load', () => window.ScrollTrigger?.refresh(), { once: true });
 
-  // Optional sound is synthesized locally, and only begins after a user action.
-  $('.sound-toggle').addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    $('.sound-toggle').setAttribute('aria-pressed', String(soundEnabled));
-    $('.sound-toggle span').textContent = soundEnabled ? 'Sound on' : 'Sound off';
-    if (soundEnabled) {
-      try { const Audio = window.AudioContext || window.webkitAudioContext; if (Audio) { audioContext ||= new Audio(); audioContext.resume(); } } catch {}
-    }
-  });
-  function playCrunch() {
-    if (!soundEnabled) return;
+  // Sound is on by default. Browsers still require activation before Web Audio can start.
+  const soundButton = $('.sound-toggle');
+  const unlockButton = $('.sound-unlock');
+  function updateSoundUI() {
+    soundButton.setAttribute('aria-pressed', String(soundEnabled));
+    $('span', soundButton).textContent = soundEnabled ? 'Sound on' : 'Sound off';
+    if (!soundEnabled) unlockButton.hidden = true;
+  }
+  async function unlockAudio(fromGesture = false) {
+    if (!soundEnabled) return false;
+    if (!fromGesture && !navigator.userActivation?.hasBeenActive && !audioContext) return false;
     try {
       const Audio = window.AudioContext || window.webkitAudioContext;
-      if (!Audio) return;
+      if (!Audio) return false;
       audioContext ||= new Audio();
-      if (audioContext.state === 'suspended') audioContext.resume();
+      if (audioContext.state === 'suspended' && (fromGesture || navigator.userActivation?.hasBeenActive)) await audioContext.resume();
+      const ready = audioContext.state === 'running';
+      document.body.dataset.audioState = ready ? 'ready' : 'activation-needed';
+      if (ready) unlockButton.hidden = true;
+      return ready;
+    } catch { document.body.dataset.audioState = 'unavailable'; return false; }
+  }
+  function gestureUnlock(event) {
+    if (event.target.closest?.('.sound-toggle, .sound-unlock') || !soundEnabled) return;
+    unlockAudio(true).then(ready => { if (ready && pendingCrunch && soundEnabled) { pendingCrunch = false; playCrunch(); } });
+  }
+  document.addEventListener('pointerdown', gestureUnlock, { passive: true });
+  document.addEventListener('keydown', gestureUnlock);
+  soundButton.addEventListener('click', () => {
+    soundEnabled = !soundEnabled; updateSoundUI();
+    if (!soundEnabled) pendingCrunch = false;
+    else unlockAudio(true).then(ready => { if (ready && $('.crunch-playground').dataset.state === 'complete') playCrunch(); });
+  });
+  unlockButton.addEventListener('click', () => { unlockAudio(true).then(ready => { if (ready) { pendingCrunch = false; playCrunch(); } }); });
+  updateSoundUI();
+  function playCrunch() {
+    if (!soundEnabled) return;
+    unlockAudio().then(ready => {
+      if (!soundEnabled) return;
+      if (!ready) { pendingCrunch = true; unlockButton.hidden = false; document.body.dataset.audioState = 'activation-needed'; return; }
+      pendingCrunch = false;
       const time = audioContext.currentTime;
-      for (let pulse = 0; pulse < 4; pulse++) {
-        const duration = .075 + pulse * .012;
+      for (let pulse = 0; pulse < 5; pulse++) {
+        const duration = .055 + pulse * .01;
         const buffer = audioContext.createBuffer(1, Math.ceil(audioContext.sampleRate * duration), audioContext.sampleRate);
         const data = buffer.getChannelData(0);
         for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2);
-        const source = audioContext.createBufferSource();
-        source.buffer = buffer;
-        const filter = audioContext.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1100;
-        const gain = audioContext.createGain(); gain.gain.value = .13 - pulse * .02;
+        const source = audioContext.createBufferSource(); source.buffer = buffer;
+        const filter = audioContext.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 800 + pulse * 150;
+        const gain = audioContext.createGain(); gain.gain.value = .2 - pulse * .025;
         source.connect(filter); filter.connect(gain); gain.connect(audioContext.destination);
-        source.start(time + pulse * .045);
+        source.start(time + pulse * .035);
         source.onended = () => { source.disconnect(); filter.disconnect(); gain.disconnect(); };
       }
-    } catch { soundEnabled = false; $('.sound-toggle').setAttribute('aria-pressed', 'false'); $('.sound-toggle span').textContent = 'Sound off'; }
+      document.body.dataset.crunchSoundCount = String((Number(document.body.dataset.crunchSoundCount) || 0) + 1);
+    });
   }
   function animateCrunch() {
-    playCrunch();
     const playground = $('.crunch-playground');
     if (!window.gsap || reduced()) { playground.dataset.state = 'complete'; return; }
     playground.dataset.state = 'playing';
@@ -126,9 +151,10 @@
     const crumbs = $('.crunch-crumbs'); crumbs.replaceChildren();
     for (let i = 0; i < 15; i++) crumbs.append(document.createElement('i'));
     crunchTimeline = gsap.timeline({ onComplete: () => { playground.dataset.state = 'complete'; crumbs.replaceChildren(); } });
-    crunchTimeline.set('.chip-half', { x: 0, y: 0, rotation: 0, opacity: 1 })
-      .to('.crunch-food', { scale: 1.04, duration: .65, ease: 'sine.inOut' })
-      .to('.chip-left', { x: -42, y: 15, rotation: -13, duration: .23, ease: 'power3.out' })
+    crunchTimeline.set('.chip-half', { x: 0, y: 0, rotation: 0, opacity: 1 }, 0)
+      .to('.crunch-food', { scale: 1.04, duration: .65, ease: 'sine.inOut' }, 0)
+      .call(playCrunch, null, .65)
+      .to('.chip-left', { x: -42, y: 15, rotation: -13, duration: .23, ease: 'power3.out' }, .65)
       .to('.chip-right', { x: 42, y: -8, rotation: 12, duration: .23, ease: 'power3.out' }, '<')
       .fromTo('.crunch-rays', { scale: .85, rotation: 20 }, { scale: 1.1, rotation: 35, duration: .45, ease: 'power3.out' }, .65)
       .to('.crunch-crumbs i', { x: i => Math.cos(i / 15 * Math.PI * 2) * (110 + (i % 4) * 35), y: i => Math.sin(i / 15 * Math.PI * 2) * (90 + (i % 3) * 40), rotation: i => i * 43, opacity: 0, scale: .3, duration: .9, ease: 'power2.out' }, .7)

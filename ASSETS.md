@@ -74,3 +74,39 @@ Final asset: dist/assets/jackfruit-origin-v2.webp
 Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-2562aa50-ada7-4d72-a3b1-8098a7f3c748.png
 
 Prompt: Use case: product-mockup. Asset type: unique food cutout for Koricho snack website chapter. A beautiful freshly cut half of a ripe tropical jackfruit, with golden yellow bulbs naturally nested inside and a vivid green textured rind. Three-quarter still-life angle with the cut face directed toward camera, horizontal oblong fruit. One half only. Two fresh green jackfruit leaves naturally alongside. High-end food editorial photography, warm natural golden light. Photorealistic premium food advertising, directional light from upper left, warm golden and cocoa palette, realistic organic texture. Fully isolated on a genuinely transparent background, no ground plane, no external cast shadow, no glow, no text, logos, hands, utensils or watermarks. Keep subject fully within frame.
+
+## Revision 3: physically rendered banana materials
+
+Generated with the built-in Imagegen tool. Texture files are photographic material concepts mapped onto an original Three.js banana model, not photographs of Koricho products. Runtime lettering is a separate native text material placed on the chip surface.
+
+### banana-skin-v3
+
+Final asset: dist/assets/banana-skin-v3.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-b547e35d-5f3e-4339-97ef-e929b7fc1904.png
+
+Prompt: Use case: product-mockup. Asset type: photorealistic physically based 3D food material texture. A seamless rectangular photographic surface texture of ripe yellow banana peel, straightened and flattened for UV mapping onto a realistic 3D banana. Warm natural yellow, subtle longitudinal fibrous striations, extremely small natural brown freckles scattered sparsely. A consistent macro scale across the whole image. Edge to edge peel surface, even neutral studio lighting without shadows. No banana object silhouette, no background, no borders, no text, no large bruises, no black spots, no cartoon or illustration.
+
+### banana-flesh-v3
+
+Final asset: dist/assets/banana-flesh-v3.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-f7b5a8f3-af0d-420b-9198-d2b0264eabf5.png
+
+Prompt: Use case: product-mockup. Asset type: photorealistic physically based 3D food material texture. Square photographic texture for the cut face of a raw banana. Extreme macro photograph looking perfectly straight down onto a banana cross-section: pale ivory creamy flesh, very subtle radial fibers, a small natural three-lobed central seed star with tiny brown seeds. The edible flesh extends beyond all four image edges so no rind, silhouette, rim, plate or background is visible. Uniform diffuse studio illumination, real tactile moisture-free fruit texture. No text, no illustrations.
+
+### banana-crisp-v3
+
+Final asset: dist/assets/banana-crisp-v3.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-85c6537e-8e75-464e-ad4d-ac75c5221a15.png
+
+Prompt: Use case: product-mockup. Asset type: photorealistic physically based 3D food material texture. Square photographic texture for the surface of a vacuum-fried banana chip. Extreme macro photograph looking perfectly straight down: warm golden yellow porous crisp banana flesh, fine realistic bubbles and tiny dry fissures, a small understated dark seed-star at the exact center. The chip surface fills every image edge, with NO visible outer rim, no silhouette or background. Subtle organic tone variation, appetizing dry crisp texture, softly directional but almost even studio light. Real food photography, no illustration, no text, no graphic elements.
+
+### sweet-potato-process-v3
+
+Final asset: dist/assets/sweet-potato-process-v3.webp
+
+Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-11f1713b-2385-4167-ade0-0012f8748e2c.png
+
+Prompt: Use case: product-mockup. Asset type: transparent food cutout. A beautiful clearly recognizable raw sweet potato ingredient still life isolated on a genuinely transparent background: one elongated purple-red-skinned orange-fleshed sweet potato cut cleanly in half, with the fresh bright orange cut surface facing the camera, and two thin circular raw sweet potato slices resting slightly in front. Photorealistic high-end food editorial photography, natural imperfect skin and vivid orange interior. Warm gentle studio light. Centered compact arrangement fully inside frame with generous transparent margins. No leaf, no apple, no banana, no logo, no words, no plate, no external cast shadow, no objects other than sweet potato.

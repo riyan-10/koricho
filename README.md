@@ -10,9 +10,9 @@ Run `npm run dev` from this directory, then open http://127.0.0.1:4173. Run `npm
 
 - Supplied logo and confirmed tagline, cream/cocoa brand direction.
 - Responsive hero with scroll-linked food movement.
-- Original automatic banana film: peel, slice, golden transformation, and chip-integrated lettering; separate desktop and mobile compositions. No pinned scroll distance.
+- Original GPU-rendered banana film: continuously deforming peel ribbons, solid curved fruit segments, photographic raw/crisp textures, and surface lettering. No pinned scroll distance; photographic fallback when WebGL is unavailable.
 - Illustrated lower-temperature/ingredient-care chapter, with source-linked research and no invented oil-reduction percentage.
-- Automatic once-per-visit crunch animation on viewport entry, with optional synthesized sound, off by default.
+- Automatic once-per-visit crunch animation on viewport entry, with synthesized sound enabled by default, synchronized to the break. Browser activation rules apply; a contextual sound activation control appears when needed.
 - Fresh jackfruit origin composition, distinct from the catalog images.
 - Three interactive product cards and accessible native product dialogs.
 - Mobile navigation, contact telephone links, keyboard controls, reduced-motion support and persisted motion preference.
@@ -38,4 +38,8 @@ Bricolage Grotesque, DM Sans, Instrument Serif: local font files; their OFL lice
 
 ## Revision 2 interaction details
 
-The hero CTA was removed and replaced with a quiet editorial note. Each storytelling chapter now has distinct artwork. The banana film runs for approximately 6.6 seconds after its stage is at least 55% in view; leaving the scene pauses it, returning resumes it, and a manual pause/replay control remains available. Browser tab visibility also pauses/resumes the film. The crunch runs once when at least 65% of its stage is visible, leaving the chip broken. Reduced-motion mode shows the final banana composition immediately and omits the automatic crunch. Product cards/dialogs retain their original catalogue cutouts.
+The hero CTA was removed and replaced with a quiet editorial note. Each storytelling chapter now has distinct artwork. The banana film runs for approximately 8.9 seconds after its stage is at least 55% in view; leaving the scene pauses it, returning resumes it, and a manual pause/replay control remains available. Browser tab visibility also pauses/resumes the film. The crunch runs once when at least 65% of its stage is visible, leaving the chip broken. Reduced-motion mode shows the final banana composition immediately and omits the automatic crunch. Product cards/dialogs retain their original catalogue cutouts.
+
+## Revision 3
+
+Replaced all vector fruit in the ingredient and process chapters. The banana uses Three.js 0.180.0, locally hosted, with continuous peel deformation, capped solid slices, photographed-material textures, and embossed surface text. Peel endpoints are precomputed and interpolated; the scene renders only while its finite timeline advances, plus resize. It pauses outside the viewport or when the browser tab is hidden. Mobile GPU pixel ratio is capped. Sweet potato process imagery is an explicit photographic ingredient composition. Jackfruit imagery is constrained to its own grid track and its caption sits below it. Sound preference defaults to on, with a browser-compatible first-interaction unlock and delayed activation control if needed.
