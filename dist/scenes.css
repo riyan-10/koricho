@@ -80,8 +80,8 @@ html{scroll-padding-top:0}
 .has-webgl .banana-canvas{opacity:1}.has-webgl .film-poster{opacity:0;pointer-events:none}
 .film-fallback{position:absolute;inset:auto 0 10%;gap:15px}.film-fallback span{width:auto;height:auto;border-radius:0;background:none;padding:0;font-size:18px}
 .process-photo{display:flex;flex-direction:column;justify-content:center;gap:20px;min-width:0}
-.process-food-wrap{width:100%;height:320px;display:grid;place-items:center}
-.process-food{max-width:100%;width:100%;height:100%;object-fit:contain;filter:drop-shadow(8px 20px 15px #19090028)}
+.process-food-wrap{width:100%;height:320px;position:relative}
+.process-food{position:absolute;inset:0;max-width:100%;width:100%;height:100%;object-fit:contain;filter:drop-shadow(8px 20px 15px #19090028)}
 .process-photo-footer{display:flex;align-items:center;justify-content:space-between;gap:25px;width:100%;padding:0 15px}
 .process-photo-footer>.process-stat{font-size:10px;line-height:1.8}
 .process-photo-footer em{font-size:24px;color:#d9bd90}
