@@ -99,7 +99,7 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
   const bottom = new THREE.Mesh(keep(new THREE.SphereGeometry(.045, 12, 8)), tipMaterial);
   bottom.position.copy(curve.getPoint(.995)); peelGroup.add(bottom);
 
-  const sideMaterial = keep(new THREE.MeshStandardMaterial({ color: 0xf4e8c9, roughness: .8 }));
+  const sideMaterial = keep(new THREE.MeshStandardMaterial({ color: 0xf1e1b6, bumpMap: skin, bumpScale: .018, roughness: .82 }));
   const capMaterial = keep(new THREE.MeshStandardMaterial({ map: raw, roughness: .84, side: THREE.DoubleSide }));
   capMaterial.onBeforeCompile = shader => {
     shader.uniforms.cookedTexture = { value: crisp }; shader.uniforms.cookingProgress = cookUniform;
@@ -178,14 +178,14 @@ export async function createBananaFilm(stage, { onStep, onComplete, reduced }) {
   shadowCtx.fillStyle = gradient; shadowCtx.fillRect(0,0,128,128);
   const shadow = new THREE.Mesh(keep(new THREE.PlaneGeometry(3.0,.35)), keep(new THREE.MeshBasicMaterial({ map: keep(new THREE.CanvasTexture(shadowCanvas)), transparent: true, depthWrite: false })));
   shadow.position.set(.1,-2.27,-.2); scene.add(shadow);
-  const cream = new THREE.Color(0xf4e8c9), gold = new THREE.Color(0xd7a848);
+  const cream = new THREE.Color(0xf1e1b6), gold = new THREE.Color(0xd7a848);
   const identity = new THREE.Quaternion();
 
   function updatePeel() {
     for (const { geometry, positions, closed, opened } of peelMeshes) {
       for (let row = 0; row <= rows; row++) {
         const t = row / rows;
-        const p = THREE.MathUtils.smoothstep(THREE.MathUtils.clamp(state.peel * 1.4 - t * .4, 0, 1), 0, 1);
+        const p = THREE.MathUtils.smoothstep(state.peel - t * .82, 0, .22);
         for (let col = 0; col <= columns; col++) {
           const offset = (row * (columns + 1) + col) * 3;
           for(let axis=0;axis<3;axis++)positions[offset+axis]=closed[offset+axis]+(opened[offset+axis]-closed[offset+axis])*p;
