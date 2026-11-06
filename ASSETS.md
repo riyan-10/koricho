@@ -113,8 +113,8 @@ Prompt: Use case: product-mockup. Asset type: transparent food cutout. A beautif
 
 ## Recorded crunch audio
 
-`dist/assets/chip-bite.mp3` is the HQ MP3 version of **Biting a Chip.wav** by **8bitmyketison**, a real chip-bite recording (1.317 seconds). Source: https://freesound.org/people/8bitmyketison/sounds/699846/
+`dist/assets/chip-bite.wav` is a 0.36-second excerpt of the HQ MP3 version of **Biting a Chip.wav** by **8bitmyketison**, a real chip-bite recording (original: 1.317 seconds; excerpt: 0.145–0.505 seconds, with short edge fades and unchanged speed/pitch). Source: https://freesound.org/people/8bitmyketison/sounds/699846/
 
-License: [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). Downloaded November 6, 2026. License and source are also included in `dist/assets/chip-bite-LICENSE.txt`. Playback gain is 0.8; no synthetic crackle is mixed in. The recording is served locally and preloaded/decoded before playback.
+License: [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). Downloaded November 6, 2026. License and source are also included in `dist/assets/chip-bite-LICENSE.txt`. Playback gain is 0.8; no synthetic crackle is mixed in. The recording is served locally and preloaded/decoded before playback. Its 0.36-second bite starts with the chip fracture and ends with the halves settling and crumbs finishing.
 
 All decorative eight-spoke sparks are inline SVG paths using the surrounding text color, so platform emoji fonts cannot change their appearance. The hero badge uses a single SVG coordinate system for its curved text, number, and caption.

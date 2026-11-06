@@ -122,8 +122,8 @@ html{scroll-padding-top:0}
   .hero-bottom-copy p{font-size:12px;line-height:1.65}
   .hero-side-note{display:none}
   .hero-art{position:relative;inset:auto;flex:1;min-height:235px;width:100%;margin:10px 0 0}
-  .hero-still{inset:0;width:100%;height:100%;max-width:100%;object-fit:contain;transform:none;filter:drop-shadow(5px 12px 10px #6b3c101a)}
-  .hero-orbit{width:min(72%,310px);height:auto;aspect-ratio:1;left:14%;top:50%;transform:translateY(-50%)}
+  .hero-still{inset:0 auto 0 18%;width:108%;height:100%;max-width:none;object-fit:contain;transform:none;filter:drop-shadow(5px 12px 10px #6b3c101a)}
+  .hero-orbit{width:min(72%,310px);height:auto;aspect-ratio:1;left:35%;top:50%;transform:translateY(-50%)}
   .hero .round-stamp{width:clamp(86px,22vw,118px);height:auto;aspect-ratio:1;left:0;bottom:8%}
   .hero .art-note{display:none}
   .hero-crumb{display:none}

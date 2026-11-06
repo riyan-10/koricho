@@ -2,5 +2,5 @@ Biting a Chip.wav — 8bitmyketison
 https://freesound.org/people/8bitmyketison/sounds/699846/
 License: Creative Commons Zero 1.0 Universal (CC0)
 https://creativecommons.org/publicdomain/zero/1.0/
-Local file: chip-bite.mp3, Freesound's high-quality MP3 version of the recording.
+Local file: chip-bite.wav, a 0.36-second excerpt (0.145–0.505 seconds) from Freesound's high-quality MP3 version. Tiny edge fades prevent clicks; original pitch and speed are preserved.
 Downloaded 2026-11-06. No synthetic noise or generated audio is mixed in.

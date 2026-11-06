@@ -93,7 +93,7 @@
   // break; only resume the audio device inside a browser-approved user gesture.
   const soundButton = $('.sound-toggle');
   const unlockButton = $('.sound-unlock');
-  const crunchBytes = fetch('./assets/chip-bite.mp3').then(response => {
+  const crunchBytes = fetch('./assets/chip-bite.wav').then(response => {
     if (!response.ok) throw new Error('Crunch recording unavailable');
     return response.arrayBuffer();
   });
@@ -162,6 +162,7 @@
       activeCrunchSource = source;
       source.start();
       source.onended = () => { if (activeCrunchSource === source) activeCrunchSource = null; source.disconnect(); gain.disconnect(); };
+      document.body.dataset.crunchSoundDuration = String(crunchBuffer.duration);
       document.body.dataset.crunchSoundCount = String((Number(document.body.dataset.crunchSoundCount) || 0) + 1);
     });
   }
@@ -176,12 +177,15 @@
     crunchTimeline.set('.chip-half', { x: 0, y: 0, rotation: 0, opacity: 1 }, 0)
       .to('.crunch-food', { scale: 1.04, duration: .65, ease: 'sine.inOut' }, 0)
       .call(playCrunch, null, .65)
-      .to('.chip-left', { x: -42, y: 15, rotation: -13, duration: .23, ease: 'power3.out' }, .65)
-      .to('.chip-right', { x: 42, y: -8, rotation: 12, duration: .23, ease: 'power3.out' }, '<')
-      .fromTo('.crunch-rays', { scale: .85, rotation: 20 }, { scale: 1.1, rotation: 35, duration: .45, ease: 'power3.out' }, .65)
-      .to('.crunch-crumbs i', { x: i => Math.cos(i / 15 * Math.PI * 2) * (110 + (i % 4) * 35), y: i => Math.sin(i / 15 * Math.PI * 2) * (90 + (i % 3) * 40), rotation: i => i * 43, opacity: 0, scale: .3, duration: .9, ease: 'power2.out' }, .7)
-      .call(() => { $('.crunch-result').textContent = 'That’s the moment.'; }, null, 1)
-      .fromTo('.crunch-result', { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: .65, ease: 'power2.out' }, 1);
+      .to('.chip-left', { x: -39, y: 13, rotation: -12, duration: .23, ease: 'power3.out' }, .65)
+      .to('.chip-right', { x: 39, y: -7, rotation: 11, duration: .23, ease: 'power3.out' }, '<')
+      // The .23s fracture and .13s settle share the .36s recorded bite.
+      .to('.chip-left', { x: -42, y: 15, rotation: -13, duration: .13, ease: 'sine.out' }, .88)
+      .to('.chip-right', { x: 42, y: -8, rotation: 12, duration: .13, ease: 'sine.out' }, .88)
+      .fromTo('.crunch-rays', { scale: .85, rotation: 20 }, { scale: 1.1, rotation: 35, duration: .36, ease: 'power3.out' }, .65)
+      .to('.crunch-crumbs i', { x: i => Math.cos(i / 15 * Math.PI * 2) * (110 + (i % 4) * 35), y: i => Math.sin(i / 15 * Math.PI * 2) * (90 + (i % 3) * 40), rotation: i => i * 43, opacity: 0, scale: .3, duration: .36, ease: 'power2.out' }, .65)
+      .call(() => { $('.crunch-result').textContent = 'That’s the moment.'; }, null, 1.03)
+      .fromTo('.crunch-result', { y: 15, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: 'power2.out' }, 1.03);
   }
 
   const products = {
