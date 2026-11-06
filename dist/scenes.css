@@ -101,3 +101,47 @@ html{scroll-padding-top:0}
 .banana-shot{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:min(75%,680px);aspect-ratio:2/1;pointer-events:none}
 .banana-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;will-change:transform}
 @media(max-width:760px){.banana-shot{width:88%}}
+
+/* Responsive hero: artwork participates in the first-screen layout on phones. */
+.brand-spark{display:inline-block;width:1em;height:1em;vertical-align:middle;flex-shrink:0}
+.round-stamp svg{display:block;overflow:visible}
+.round-stamp .stamp-ring{font:500 9px var(--body);letter-spacing:1.7px}
+.round-stamp .stamp-number{font:750 53px var(--display);letter-spacing:-2px}
+.round-stamp .stamp-caption{font:italic 18px var(--serif);letter-spacing:0}
+.crunch-rays{width:500px;height:500px;line-height:0;font-size:initial}
+.crunch-rays .brand-spark{display:block;width:100%;height:100%}
+.crunch-replay{position:absolute;right:var(--pad);bottom:26px;background:none;display:flex;gap:12px;align-items:center;min-height:36px;padding:8px 0;font-size:10px}
+.crunch-replay span{font-size:20px}
+@media(max-width:1100px){.crunch-rays{width:420px;height:420px}}
+@media(max-width:760px){
+  .hero{display:flex;flex-direction:column;height:100svh;min-height:600px;max-height:none;padding:104px var(--pad) 0}
+  .hero-copy{flex:none;width:100%}
+  .hero h1{font-size:clamp(46px,15.3vw,104px);line-height:.94}
+  .hero-eyebrow{margin-bottom:20px;font-size:8px;letter-spacing:.07em;gap:8px}
+  .hero-bottom-copy{margin-top:22px;gap:0}
+  .hero-bottom-copy p{font-size:12px;line-height:1.65}
+  .hero-side-note{display:none}
+  .hero-art{position:relative;inset:auto;flex:1;min-height:235px;width:100%;margin:10px 0 0}
+  .hero-still{inset:0;width:100%;height:100%;max-width:100%;object-fit:contain;transform:none;filter:drop-shadow(5px 12px 10px #6b3c101a)}
+  .hero-orbit{width:min(72%,310px);height:auto;aspect-ratio:1;left:14%;top:50%;transform:translateY(-50%)}
+  .hero .round-stamp{width:clamp(86px,22vw,118px);height:auto;aspect-ratio:1;left:0;bottom:8%}
+  .hero .art-note{display:none}
+  .hero-crumb{display:none}
+  .hero-foot{position:relative;inset:auto;flex:none;width:100%;height:54px;gap:12px;font-size:7px}
+  .hero-foot>a{font-size:9px;gap:8px}
+  .hero-foot>span:first-child{max-width:125px}
+  .crunch-rays{width:min(100%,380px);height:auto;aspect-ratio:1}
+  .crunch-food{width:min(100%,360px);height:auto;aspect-ratio:1}
+  .crunch-replay{bottom:18px;font-size:9px;gap:6px}
+  .sound-controls{max-width:64%;flex-wrap:wrap;gap:0 14px}
+}
+@media(max-width:760px) and (max-height:700px){
+  .hero{padding-top:90px;min-height:580px}
+  .hero-eyebrow{margin-bottom:16px;font-size:7px}
+  .hero-bottom-copy{margin-top:16px}.hero-bottom-copy p{font-size:11px}
+  .hero-art{min-height:210px;margin-top:0}
+  .hero-foot{height:46px}
+}
+
+/* Center without transform translation: GSAP owns the caption’s vertical motion. */
+.crunch-result{left:0;right:0;width:100%;transform:none;text-align:center;white-space:normal}

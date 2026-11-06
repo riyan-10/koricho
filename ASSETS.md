@@ -110,3 +110,11 @@ Final asset: dist/assets/sweet-potato-process-v3.webp
 Original PNG: /Users/user/.codex/generated_images/01a1abe7-5bf5-75f1-9596-9e061d612fb8/exec-11f1713b-2385-4167-ade0-0012f8748e2c.png
 
 Prompt: Use case: product-mockup. Asset type: transparent food cutout. A beautiful clearly recognizable raw sweet potato ingredient still life isolated on a genuinely transparent background: one elongated purple-red-skinned orange-fleshed sweet potato cut cleanly in half, with the fresh bright orange cut surface facing the camera, and two thin circular raw sweet potato slices resting slightly in front. Photorealistic high-end food editorial photography, natural imperfect skin and vivid orange interior. Warm gentle studio light. Centered compact arrangement fully inside frame with generous transparent margins. No leaf, no apple, no banana, no logo, no words, no plate, no external cast shadow, no objects other than sweet potato.
+
+## Recorded crunch audio
+
+`dist/assets/chip-bite.mp3` is the HQ MP3 version of **Biting a Chip.wav** by **8bitmyketison**, a real chip-bite recording (1.317 seconds). Source: https://freesound.org/people/8bitmyketison/sounds/699846/
+
+License: [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). Downloaded November 6, 2026. License and source are also included in `dist/assets/chip-bite-LICENSE.txt`. Playback gain is 0.8; no synthetic crackle is mixed in. The recording is served locally and preloaded/decoded before playback.
+
+All decorative eight-spoke sparks are inline SVG paths using the surrounding text color, so platform emoji fonts cannot change their appearance. The hero badge uses a single SVG coordinate system for its curved text, number, and caption.

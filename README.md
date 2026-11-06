@@ -30,7 +30,9 @@ Ecommerce, payments, order management, and checkout are outside this main-websit
 
 ## Publishing
 
-Site identity and static output directory are tracked in `.openai/hosting.json`. Use the Sites source and deployment workflow for this same project on subsequent edits; preserve the existing project ID and audience.
+Production is hosted at https://koricho-website.vercel.app through Vercel project `koricho-website` in `riyan-10s-projects`. Its connected GitHub repository is https://github.com/riyan-10/koricho; pushes to `main` deploy automatically. `vercel.json` publishes `dist/` without a build or dependency installation.
+
+The `github` remote points to the production repository, and `upstream` retains https://github.com/riyannizar-am/koricho as the original source. When updating the original source, sync the `riyan-10` fork to deploy those commits. The `.openai/hosting.json` identity remains for the earlier Sites release; Vercel is the current release target. Never commit `.env*` or `.vercel/` local files.
 
 ## Fonts and libraries
 
@@ -43,3 +45,7 @@ The hero CTA was removed and replaced with a quiet editorial note. Each storytel
 ## Revision 3
 
 Replaced all vector fruit in the ingredient and process chapters. The banana uses Three.js 0.180.0, locally hosted, with continuous peel deformation, capped solid slices, photographed-material textures, and embossed surface text. Peel endpoints are precomputed and interpolated; the scene renders only while its finite timeline advances, plus resize. It pauses outside the viewport or when the browser tab is hidden. Mobile GPU pixel ratio is capped. Sweet potato process imagery is an explicit photographic ingredient composition. Jackfruit imagery is constrained to its own grid track and its caption sits below it. Sound preference defaults to on, with a browser-compatible first-interaction unlock and delayed activation control if needed.
+
+## Mobile and audio revision
+
+Phone heroes use a viewport-height flex layout with the chip artwork in the layout flow. The badge lettering and center copy share one SVG coordinate system. Decorative sparks are SVG paths, avoiding Apple emoji rendering. The crunch uses a locally served CC0 recording of a real chip bite (see ASSETS.md), with sound on by default, browser gesture activation, immediate mute, replay, and no delayed offscreen bite on the next tap. Explicit sound replay remains available with reduced motion.

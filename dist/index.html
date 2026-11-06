@@ -12,11 +12,12 @@
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/hero-crunch-v2.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./scenes.css">
+  <link rel="stylesheet" href="./scenes.css?v=mobile-audio-1">
   <script src="./assets/gsap.min.js" defer></script>
   <script src="./assets/ScrollTrigger.min.js" defer></script>
+  <link rel="preload" href="./assets/chip-bite.mp3" as="fetch" type="audio/mpeg" crossorigin>
   <script src="./scenes.js" defer></script>
-  <script src="./app.js" defer></script>
+  <script src="./app.js?v=mobile-audio-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#snacks">Skip to the snacks</a>
@@ -36,7 +37,7 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-grain" aria-hidden="true"></div>
       <div class="hero-copy">
-        <p class="eyebrow hero-eyebrow"><span class="tiny-spark" aria-hidden="true">✳</span> Familiar ingredients. Unexpected crunch.</p>
+        <p class="eyebrow hero-eyebrow"><span class="tiny-spark" aria-hidden="true"><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></span> Familiar ingredients. Unexpected crunch.</p>
         <h1 id="hero-title"><span class="hero-line">The crunch</span><span class="hero-line">u will <em>miss.</em></span></h1>
         <div class="hero-bottom-copy"><p>Banana. Sweet potato. Jackfruit.<br>Vacuum-fried. Ready for your next bite.</p><span class="hero-side-note">A little curiosity.<br><em>A whole lot of character.</em></span></div>
       </div>
@@ -44,13 +45,13 @@
         <div class="hero-orbit"></div>
         <img class="hero-still" src="./assets/hero-crunch-v2.webp" alt="" width="1536" height="1024" fetchpriority="high">
         <span class="hero-crumb crumb-1"></span><span class="hero-crumb crumb-2"></span><span class="hero-crumb crumb-3"></span>
-        <div class="round-stamp"><svg viewBox="0 0 160 160"><defs><path id="stamp-path" d="M80,80 m-57,0 a57,57 0 1,1 114,0 a57,57 0 1,1 -114,0"/></defs><text><textPath href="#stamp-path" textLength="355">A LITTLE DIFFERENT · A LOT OF CRUNCH · </textPath></text></svg><span>3<br><small>good things</small></span></div>
+        <div class="round-stamp"><svg viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><path id="stamp-top" d="M24 80a56 56 0 0 1 112 0"/><path id="stamp-bottom" d="M24 86a56 56 0 0 0 112 0"/></defs><text class="stamp-ring"><textPath href="#stamp-top" startOffset="50%" text-anchor="middle">A LITTLE DIFFERENT</textPath></text><text class="stamp-ring"><textPath href="#stamp-bottom" startOffset="50%" text-anchor="middle">A LOT OF CRUNCH</textPath></text><text class="stamp-number" x="80" y="84" text-anchor="middle">3</text><text class="stamp-caption" x="80" y="108" text-anchor="middle">good things</text></svg></div>
         <span class="art-note">a little closer?<svg viewBox="0 0 95 45"><path d="M2 6C28 1 63 3 75 32M62 28l14 9 2-17"/></svg></span>
       </div>
-      <div class="hero-foot"><span>GOOD THINGS COME WITH A CRUNCH.</span><a href="#journey">Scroll for the good stuff <span aria-hidden="true">↓</span></a><span class="hero-foot-right">KOCHI, KERALA <span aria-hidden="true">✳</span></span></div>
+      <div class="hero-foot"><span>GOOD THINGS COME WITH A CRUNCH.</span><a href="#journey">Scroll for the good stuff <span aria-hidden="true">↓</span></a><span class="hero-foot-right">KOCHI, KERALA <span aria-hidden="true"><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></span></span></div>
     </section>
 
-    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>BIG ON CRUNCH</span><i>✳</i><span>FULL OF CHARACTER</span><i>✳</i><span>HELLO, KORICHO</span><i>✳</i><span>BIG ON CRUNCH</span><i>✳</i><span>FULL OF CHARACTER</span><i>✳</i><span>HELLO, KORICHO</span><i>✳</i></div></div>
+    <div class="ticker" aria-hidden="true"><div class="ticker-track"><span>BIG ON CRUNCH</span><i><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></i><span>FULL OF CHARACTER</span><i><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></i><span>HELLO, KORICHO</span><i><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></i><span>BIG ON CRUNCH</span><i><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></i><span>FULL OF CHARACTER</span><i><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></i><span>HELLO, KORICHO</span><i><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></i></div></div>
 
     <section id="journey" class="film-section" aria-labelledby="film-title">
       <div class="section-top"><span class="eyebrow">01 / A little ingredient film</span><span class="chapter-line" aria-hidden="true"></span><span class="eyebrow">Let the good things unfold.</span></div>
@@ -70,7 +71,8 @@
 
     <section id="crunch" class="crunch-section" aria-labelledby="crunch-title">
       <div class="crunch-heading"><p class="eyebrow">03 / You know the feeling</p><h2 id="crunch-title">Wait for<br>the <em>crunch.</em></h2><p>That first bite deserves<br>a moment of its own.</p></div>
-      <div class="crunch-playground" data-state="ready"><div class="crunch-rays" aria-hidden="true">✳</div><div class="crunch-food" aria-hidden="true"><img class="chip-half chip-left" src="./assets/crunch-macro-v2.webp" alt="" width="800" height="800" loading="lazy"><img class="chip-half chip-right" src="./assets/crunch-macro-v2.webp" alt="" width="800" height="800" loading="lazy"></div><div class="crunch-crumbs" aria-hidden="true"></div><span class="crunch-result" aria-live="polite"></span></div>
+      <div class="crunch-playground" data-state="ready"><div class="crunch-rays" aria-hidden="true"><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></div><div class="crunch-food" aria-hidden="true"><img class="chip-half chip-left" src="./assets/crunch-macro-v2.webp" alt="" width="800" height="800" loading="lazy"><img class="chip-half chip-right" src="./assets/crunch-macro-v2.webp" alt="" width="800" height="800" loading="lazy"></div><div class="crunch-crumbs" aria-hidden="true"></div><span class="crunch-result" aria-live="polite"></span></div>
+      <button class="crunch-replay" type="button" aria-label="Replay the chip crunch">Hear that again <span aria-hidden="true">↻</span></button>
       <div class="sound-controls"><button class="sound-toggle" type="button" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14"/><path class="sound-slash" d="m15 9 6 6m0-6-6 6"/></svg><span>Sound on</span></button><button class="sound-unlock" type="button" hidden>Tap to hear the crunch ↗</button></div>
 
     </section>
@@ -84,12 +86,12 @@
         <button class="product-card sweet-card" type="button" data-product="sweet-potato" aria-label="Discover the sweet potato snack"><span class="product-number">02 / THE COLOURFUL CHARACTER</span><span class="product-art"><span class="product-disc"></span><img src="./assets/sweet-potato-chip.webp" alt="Orange sweet-potato chip with a purple skin edge" width="800" height="800" loading="lazy"></span><span class="product-name">Sweet potato<span class="product-arrow" aria-hidden="true">↗</span></span><span class="product-description">A little earthy. A lot of personality.</span></button>
         <button class="product-card jackfruit-card" type="button" data-product="jackfruit" aria-label="Discover the jackfruit snack"><span class="product-number">03 / THE GOLDEN ORIGINAL</span><span class="product-art"><span class="product-disc"></span><img src="./assets/jackfruit-chip.webp" alt="Golden ridged jackfruit snack" width="800" height="800" loading="lazy"></span><span class="product-name">Jackfruit<span class="product-arrow" aria-hidden="true">↗</span></span><span class="product-description">Golden. Bold. Beautifully different.</span></button>
       </div>
-      <div class="snacks-footer"><span>THREE INGREDIENTS. THREE PERSONALITIES. ONE KORICHO.</span><span aria-hidden="true">✳</span><a href="#contact">Ask us about the snacks <span aria-hidden="true">↗</span></a></div>
+      <div class="snacks-footer"><span>THREE INGREDIENTS. THREE PERSONALITIES. ONE KORICHO.</span><span aria-hidden="true"><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></span><a href="#contact">Ask us about the snacks <span aria-hidden="true">↗</span></a></div>
     </section>
 
-    <section id="story" class="story-section" aria-labelledby="story-title"><div class="story-mark" aria-hidden="true"><span>From<br><em>Kochi,</em><br>with crunch.</span><div class="story-spark">✳</div></div><div class="story-copy"><p class="eyebrow">05 / A little hello from Koricho</p><h2 id="story-title">Small beginnings.<br><em>Big snack energy.</em></h2><p>We're Koricho, a startup from Kochi, Kerala. We're starting with three familiar ingredients and a curiosity for doing things a little differently.</p><p>Banana, sweet potato and jackfruit. Vacuum-fried snacks with a character of their own. This is the beginning of our story.</p><a class="text-link" href="#contact">Come say hello <span aria-hidden="true">↗</span></a></div></section>
+    <section id="story" class="story-section" aria-labelledby="story-title"><div class="story-mark" aria-hidden="true"><span>From<br><em>Kochi,</em><br>with crunch.</span><div class="story-spark"><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></div></div><div class="story-copy"><p class="eyebrow">05 / A little hello from Koricho</p><h2 id="story-title">Small beginnings.<br><em>Big snack energy.</em></h2><p>We're Koricho, a startup from Kochi, Kerala. We're starting with three familiar ingredients and a curiosity for doing things a little differently.</p><p>Banana, sweet potato and jackfruit. Vacuum-fried snacks with a character of their own. This is the beginning of our story.</p><a class="text-link" href="#contact">Come say hello <span aria-hidden="true">↗</span></a></div></section>
 
-    <section id="contact" class="contact-section" aria-labelledby="contact-title"><div class="contact-top"><p class="eyebrow">Your next snack break starts here.</p><span aria-hidden="true">✳</span></div><h2 id="contact-title">Let's talk<br><em>crunch.</em><a href="tel:+917012059995" aria-label="Call Koricho on +91 70120 59995">↗</a></h2><div class="contact-bottom"><p>Curious about the snacks?<br>Let's get to know each other.</p><a href="tel:+917012059995">+91 70120 59995 <span aria-hidden="true">↗</span></a><span>Kochi, Kerala, India</span></div></section>
+    <section id="contact" class="contact-section" aria-labelledby="contact-title"><div class="contact-top"><p class="eyebrow">Your next snack break starts here.</p><span aria-hidden="true"><svg class="brand-spark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 6v88M6 50h88M19 19l62 62M19 81l62-62" fill="none" stroke="currentColor" stroke-width="9"/></svg></span></div><h2 id="contact-title">Let's talk<br><em>crunch.</em><a href="tel:+917012059995" aria-label="Call Koricho on +91 70120 59995">↗</a></h2><div class="contact-bottom"><p>Curious about the snacks?<br>Let's get to know each other.</p><a href="tel:+917012059995">+91 70120 59995 <span aria-hidden="true">↗</span></a><span>Kochi, Kerala, India</span></div></section>
   </main>
 
   <footer class="site-footer"><a href="#" class="brand" aria-label="Koricho home"><img src="./assets/logo.png" alt="Koricho" width="1144" height="485" loading="lazy"></a><span>The crunch u will miss</span><div><button class="motion-toggle" type="button" aria-pressed="false">Reduce motion</button><span>© <span id="year">2026</span> Koricho</span><a href="#">Back to top ↑</a></div></footer>

@@ -10,6 +10,9 @@
   let soundEnabled = true;
   let pendingCrunch = false;
   let audioContext;
+  let crunchBuffer;
+  let activeCrunchSource;
+  let crunchLoad;
   let crunchTimeline;
   const reduced = () => systemMotion.matches || manualReduced;
 
@@ -65,8 +68,8 @@
     gsap.registerPlugin(ScrollTrigger);
     animationContext = gsap.context(() => {
       gsap.from('.hero-eyebrow, .hero-line, .hero-bottom-copy', { y: 35, opacity: 0, duration: 1, stagger: .11, ease: 'power3.out', clearProps: 'opacity' });
-      gsap.from('.hero-still', { scale: .88, opacity: 0, y: 35, duration: 1.4, ease: 'power3.out', delay: .18 });
-      gsap.to('.hero-still', { y: -60, rotation: 8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
+      gsap.from('.hero-still', { scale: .94, opacity: 0, y: 16, duration: 1, ease: 'power3.out', delay: .1, clearProps: 'transform,opacity' });
+      if (window.matchMedia('(min-width: 761px)').matches) gsap.to('.hero-still', { y: -60, rotation: 8, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
       gsap.to('.round-stamp', { rotation: 25, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } });
       gsap.from('.product-card', { y: 65, opacity: 0, stagger: .13, duration: .8, ease: 'power2.out', scrollTrigger: { trigger: '.product-grid', start: 'top 88%', toggleActions: 'play none none none' } });
       gsap.from('.origin-art img', { y: 24, scale: .97, ease: 'none', scrollTrigger: { trigger: '.origin-section', start: 'top 85%', end: 'center 45%', scrub: 1 } });
@@ -86,9 +89,23 @@
   if (document.fonts) document.fonts.ready.then(() => window.ScrollTrigger?.refresh());
   window.addEventListener('load', () => window.ScrollTrigger?.refresh(), { once: true });
 
-  // Sound is on by default. Browsers still require activation before Web Audio can start.
+  // A locally hosted, CC0 recording of an actual chip bite. Decode ahead of the
+  // break; only resume the audio device inside a browser-approved user gesture.
   const soundButton = $('.sound-toggle');
   const unlockButton = $('.sound-unlock');
+  const crunchBytes = fetch('./assets/chip-bite.mp3').then(response => {
+    if (!response.ok) throw new Error('Crunch recording unavailable');
+    return response.arrayBuffer();
+  });
+  crunchBytes.catch(() => { document.body.dataset.audioState = 'unavailable'; });
+  function loadCrunch() {
+    if (!audioContext) return Promise.resolve();
+    if (!crunchLoad) crunchLoad = crunchBytes.then(bytes => audioContext.decodeAudioData(bytes.slice(0))).then(buffer => { crunchBuffer = buffer; }).catch(() => {
+      crunchLoad = null; document.body.dataset.audioState = 'unavailable';
+    });
+    return crunchLoad;
+  }
+  function stopCrunch() { activeCrunchSource?.stop(); activeCrunchSource = null; }
   function updateSoundUI() {
     soundButton.setAttribute('aria-pressed', String(soundEnabled));
     $('span', soundButton).textContent = soundEnabled ? 'Sound on' : 'Sound off';
@@ -101,45 +118,50 @@
       const Audio = window.AudioContext || window.webkitAudioContext;
       if (!Audio) return false;
       audioContext ||= new Audio();
-      if (audioContext.state === 'suspended' && (fromGesture || navigator.userActivation?.hasBeenActive)) await audioContext.resume();
-      const ready = audioContext.state === 'running';
+      if (audioContext.state !== 'running' && (fromGesture || navigator.userActivation?.hasBeenActive)) await audioContext.resume();
+      await loadCrunch();
+      const ready = audioContext.state === 'running' && !!crunchBuffer;
       document.body.dataset.audioState = ready ? 'ready' : 'activation-needed';
       if (ready) unlockButton.hidden = true;
       return ready;
     } catch { document.body.dataset.audioState = 'unavailable'; return false; }
   }
   function gestureUnlock(event) {
-    if (event.target.closest?.('.sound-toggle, .sound-unlock') || !soundEnabled) return;
-    unlockAudio(true).then(ready => { if (ready && pendingCrunch && soundEnabled) { pendingCrunch = false; playCrunch(); } });
+    if (event.target.closest?.('.sound-toggle, .sound-unlock, .crunch-replay') || !soundEnabled) return;
+    // Unlock silently. A late gesture must not play a bite from an offscreen scene.
+    unlockAudio(true);
   }
   document.addEventListener('pointerdown', gestureUnlock, { passive: true });
   document.addEventListener('keydown', gestureUnlock);
   soundButton.addEventListener('click', () => {
     soundEnabled = !soundEnabled; updateSoundUI();
-    if (!soundEnabled) pendingCrunch = false;
-    else unlockAudio(true).then(ready => { if (ready && $('.crunch-playground').dataset.state === 'complete') playCrunch(); });
+    if (!soundEnabled) { pendingCrunch = false; stopCrunch(); }
+    else unlockAudio(true);
   });
-  unlockButton.addEventListener('click', () => { unlockAudio(true).then(ready => { if (ready) { pendingCrunch = false; playCrunch(); } }); });
+  unlockButton.addEventListener('click', () => {
+    unlockAudio(true).then(ready => { if (ready) { pendingCrunch = false; reduced() ? playCrunch() : animateCrunch(); } });
+  });
+  $('.crunch-replay').addEventListener('click', () => {
+    if (!soundEnabled) { soundEnabled = true; updateSoundUI(); }
+    unlockAudio(true).then(() => reduced() ? playCrunch() : animateCrunch());
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { pendingCrunch = false; stopCrunch(); } });
   updateSoundUI();
   function playCrunch() {
-    if (!soundEnabled) return;
+    if (!soundEnabled || document.hidden) return;
     unlockAudio().then(ready => {
-      if (!soundEnabled) return;
-      if (!ready) { pendingCrunch = true; unlockButton.hidden = false; document.body.dataset.audioState = 'activation-needed'; return; }
+      if (!soundEnabled || document.hidden) return;
+      if (!ready) { pendingCrunch = true; unlockButton.hidden = false; return; }
       pendingCrunch = false;
-      const time = audioContext.currentTime;
-      for (let pulse = 0; pulse < 5; pulse++) {
-        const duration = .055 + pulse * .01;
-        const buffer = audioContext.createBuffer(1, Math.ceil(audioContext.sampleRate * duration), audioContext.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2);
-        const source = audioContext.createBufferSource(); source.buffer = buffer;
-        const filter = audioContext.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 800 + pulse * 150;
-        const gain = audioContext.createGain(); gain.gain.value = .2 - pulse * .025;
-        source.connect(filter); filter.connect(gain); gain.connect(audioContext.destination);
-        source.start(time + pulse * .035);
-        source.onended = () => { source.disconnect(); filter.disconnect(); gain.disconnect(); };
-      }
+      stopCrunch();
+      const source = audioContext.createBufferSource();
+      const gain = audioContext.createGain();
+      source.buffer = crunchBuffer;
+      gain.gain.value = .8;
+      source.connect(gain); gain.connect(audioContext.destination);
+      activeCrunchSource = source;
+      source.start();
+      source.onended = () => { if (activeCrunchSource === source) activeCrunchSource = null; source.disconnect(); gain.disconnect(); };
       document.body.dataset.crunchSoundCount = String((Number(document.body.dataset.crunchSoundCount) || 0) + 1);
     });
   }
